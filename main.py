@@ -4,9 +4,11 @@ from kivy.uix.widget import Widget
 from kivy.properties import ObjectProperty
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
+from kivy.uix.button import Button
 from kivy.graphics import Rectangle
 from kivy.graphics import Color
 from kivy.graphics import Line
+from kivy.core.window import Window
 
 class Touch(Widget):
     def __init__(self, **kwargs):
@@ -42,13 +44,9 @@ class Touch(Widget):
 class MyGrid(GridLayout):
     def __init__(self, **kwargs):
         super(MyGrid, self).__init__(**kwargs)
-        self.cols = 1
-        self.add_widget(Label(text="This should be at the top"))
-        self.add_widget(Label(text=""))
-        self.add_widget(Touch())
-        self.add_widget(Label(text="g"))
-        self.add_widget(Label(text="g"))
-        self.add_widget(Label(text="g"))
+        self.cols = 2
+        self.add_widget(Touch(size_hint_x=None, width=Window.size[0]*0.8))
+        self.add_widget(Button(text="Hey"))
 
 
 class MyApp(App):
