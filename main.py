@@ -2,12 +2,17 @@
 import kivy
 from kivy.core.window import Window
 from kivy.uix.widget import Widget
+from kivy.uix.label import Label
 
 
 class MyKeyboardListener(Widget):
 
+
     def __init__(self, **kwargs):
         super(MyKeyboardListener, self).__init__(**kwargs)
+        self.label = Label(text = "")
+        self.add_widget(self.label)
+        self.label.pos = (100, 300)
         self._keyboard = Window.request_keyboard(
             self._keyboard_closed, self, 'text')
         if self._keyboard.widget:
@@ -22,6 +27,7 @@ class MyKeyboardListener(Widget):
         self._keyboard = None
 
     def _on_keyboard_down(self, keyboard, keycode, text, modifiers):
+        self.label.text = keycode[1]
         print('The key', keycode, 'have been pressed')
         print(' - text is %r' % text)
         print(' - modifiers are %r' % modifiers)
