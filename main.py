@@ -1,47 +1,61 @@
-
 import kivy
-from kivy.core.window import Window
+from kivy.app import App
 from kivy.uix.widget import Widget
+from kivy.properties import ObjectProperty
+from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
+from kivy.graphics import Rectangle
+from kivy.graphics import Color
+from kivy.graphics import Line
 
-
-class MyKeyboardListener(Widget):
-
-
+class Touch(Widget):
     def __init__(self, **kwargs):
-        super(MyKeyboardListener, self).__init__(**kwargs)
-        self.label = Label(text = "")
-        self.add_widget(self.label)
-        self.label.pos = (100, 300)
-        self._keyboard = Window.request_keyboard(
-            self._keyboard_closed, self, 'text')
-        if self._keyboard.widget:
-            # If it exists, this widget is a VKeyboard object which you can use
-            # to change the keyboard layout.
-            pass
-        self._keyboard.bind(on_key_down=self._on_keyboard_down)
+        super(Touch, self).__init__(**kwargs)
+        self.add_widget(Label(text = "Hey", pos_hint = {"Top": 0}))
 
-    def _keyboard_closed(self):
-        print('My keyboard have been closed!')
-        self._keyboard.unbind(on_key_down=self._on_keyboard_down)
-        self._keyboard = None
+        with self.canvas:
+            Color(1,0,0,1,mode='rgba')
+            Color(.1,.5,.8,1,mode='rgba')
+            self.rect = Rectangle(pos=(0,0), size=(5,5))
+    def on_touch_down(self, touch):
+        
+        
+        self.rect.pos = touch.pos
+        print("Mouse down", touch)
 
-    def _on_keyboard_down(self, keyboard, keycode, text, modifiers):
-        self.label.text = keycode[1]
-        print('The key', keycode, 'have been pressed')
-        print(' - text is %r' % text)
-        print(' - modifiers are %r' % modifiers)
+    def on_touch_move(self, touch):
+        Color(1,0,0,1,mode='rgba')
+        if(MyApp.lastMovePos == (0,0)):
+            print(MyApp.lastMovePos)
+            MyApp.lastMovePos = touch.pos
+        else:
+            with self.canvas:
+                Line(points = (MyApp.lastMovePos[0],MyApp.lastMovePos[1], touch.pos[0],touch.pos[1]), width = 5)
+            MyApp.lastMovePos = touch.pos
+        self.rect.pos = touch.pos
+        print("Mouse move", touch)
 
-        # Keycode is composed of an integer + a string
-        # If we hit escape, release the keyboard
-        if keycode[1] == 'escape':
-            keyboard.release()
+    def on_touch_up(self, touch):
+        MyApp.lastMovePos = (0,0)
+        print("Mouse up", touch)
 
-        # Return True to accept the key. Otherwise, it will be used by
-        # the system.
-        return True
+class MyGrid(GridLayout):
+    def __init__(self, **kwargs):
+        super(MyGrid, self).__init__(**kwargs)
+        self.cols = 1
+        self.add_widget(Label(text="This should be at the top"))
+        self.add_widget(Label(text=""))
+        self.add_widget(Touch())
+        self.add_widget(Label(text="g"))
+        self.add_widget(Label(text="g"))
+        self.add_widget(Label(text="g"))
 
 
-if __name__ == '__main__':
-    from kivy.base import runTouchApp
-    runTouchApp(MyKeyboardListener())
+class MyApp(App):
+    lastMovePos = (0,0)
+    def build(self):
+        return MyGrid()
+
+
+if __name__ == "__main__":
+    MyApp().run()
