@@ -46,7 +46,7 @@ class Canvas(Widget):
         with self.canvas:   
             MyApp.color
             Line(points = (touch.pos[0],touch.pos[1], touch.pos[0]+1,touch.pos[1]+1), width = int(MyApp.width))
-
+        MyApp.lastMovePos = touch.pos
         print("Mouse down", touch)
 
     def on_touch_move(self, touch):
