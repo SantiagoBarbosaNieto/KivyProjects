@@ -23,7 +23,7 @@ class Menu(GridLayout):
         self.sliderG = Slider(min = 0, max = 255, value = int(MyApp.color.g*255))
         self.sliderB = Slider(min = 0, max = 255, value = int(MyApp.color.b*255))
         self.sliderA = Slider(min = 0, max = 255, value = int(MyApp.color.a*255))
-        self.sliderW = Slider(min = 1, max = 30, value = 10)
+        self.sliderW = Slider(min = 1, max = 100, value = 10)
 
         self.back = Rectangle()
 
@@ -71,6 +71,7 @@ class Menu(GridLayout):
         self.sliderAValue.text = "% d"% value
         MyApp.color = Color(MyApp.color.r, MyApp.color.g,MyApp.color.b, float(value/255), mode = 'rgba')
     def on_valueW(self, instance, value):
+        self.sliderWValue.text = "% d"% value
         MyApp.width = value
 
 
