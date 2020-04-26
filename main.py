@@ -70,7 +70,7 @@ class MyGrid(GridLayout):
     def __init__(self, **kwargs):
         super(MyGrid, self).__init__(**kwargs)
         self.cols = 2
-        self.add_widget(Canvas(size_hint_x = None, width=Window.size[0]*0.8))
+        self.add_widget(Canvas())
         self.add_widget(Menu())
 
 
