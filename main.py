@@ -13,7 +13,6 @@ from pipe import Pipe
 
 
 class Background(Widget):
-	cloud_texture = ObjectProperty(None)
 	base_texture = ObjectProperty(None)
 	bg_texture = ObjectProperty(None)
 
@@ -25,25 +24,19 @@ class Background(Widget):
 		#Create textures
 		self.bg_texture = Image(source = "assets/bg.png").texture
 		self.bg_texture.wrap = 'repeat'
-		self.bg_texture.uvsize = (1, -1)
+		self.bg_texture.uvsize = (0.5, -1)
 
-		self.cloud_texture = Image(source = "assets/cloud.png").texture
-		self.cloud_texture.wrap = 'repeat'
-		self.cloud_texture.uvsize = (4, -1)
 
 		self.base_texture = Image(source = "assets/base.png").texture
 		self.base_texture.wrap = 'repeat'
-		self.base_texture.uvsize = (2, -1)
+		self.base_texture.uvsize = (1, -1)
 
 
 	def scroll_textures(self, time_passed):
 		#Update the uvpos of the texture
-		self.cloud_texture.uvpos = ((self.cloud_texture.uvpos[0]+time_passed/3)%Window.width,self.cloud_texture.uvpos[1])
 		self.base_texture.uvpos = ((self.base_texture.uvpos[0]+time_passed/2)%Window.width, self.base_texture.uvpos[1])
 		self.bg_texture.uvpos = ((self.bg_texture.uvpos[0]+time_passed/8)%Window.width, self.bg_texture.uvpos[1])
 		#Redraw the texture
-		texture = self.property('cloud_texture')
-		texture.dispatch(self)
 		texture = self.property('base_texture')
 		texture.dispatch(self)
 		texture = self.property('bg_texture')
@@ -59,7 +52,7 @@ class MainApp(App):
 	def start_game(self):
 		#create pipes
 		num_pipes = 5
-		pipes_gap = 200
+		pipes_gap = Window.width/(num_pipes-1)	
 		for i in range(num_pipes):
 			pipe = Pipe()
 			#                          (Base Height + Body Height + Cap height + 30, root Height - Body Height - Cap height - 30) 
@@ -82,7 +75,7 @@ class MainApp(App):
 
 
 		num_pipes = 5
-		pipes_gap = 200	
+		pipes_gap = Window.width/(num_pipes-1)	
 
 		pipes_xs = list(map(lambda pipe: pipe.x, self.pipes))
 		right_most_x = max(pipes_xs)

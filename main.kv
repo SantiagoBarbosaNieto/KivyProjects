@@ -8,13 +8,9 @@ FloatLayout:
 				size : self.size
 				pos : self.pos
 				texture : self.bg_texture
-			Rectangle: 
-				size : self.width, 100
-				pos : self.pos[0], self.pos[1] + self.height - 100
-				texture: self.cloud_texture
 			Rectangle:
-				size : self.width, 100
-				pos : self.pos[0], 0
+				size : self.width, self.height
+				pos : self.pos[0], root.height/3  - self.height
 				texture: self.base_texture
 		Button: 
 			text: "Start Game"
