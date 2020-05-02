@@ -1,0 +1,23 @@
+#:include pipe.kv
+
+FloatLayout:
+	Background:
+		id: background
+		canvas.before:
+			Rectangle:
+				size : self.size
+				pos : self.pos
+				texture : self.bg_texture
+			Rectangle: 
+				size : self.width, 100
+				pos : self.pos[0], self.pos[1] + self.height - 100
+				texture: self.cloud_texture
+			Rectangle:
+				size : self.width, 100
+				pos : self.pos[0], 0
+				texture: self.base_texture
+		Button: 
+			text: "Start Game"
+			size_hint: None, None
+			on_release:
+				app.start_game()
